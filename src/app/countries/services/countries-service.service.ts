@@ -5,5 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class CountriesServiceService {
 
+
+  private _regions: string[] = ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
+
+  get regions(){
+    return [...this._regions]
+  }
   constructor() { }
 }

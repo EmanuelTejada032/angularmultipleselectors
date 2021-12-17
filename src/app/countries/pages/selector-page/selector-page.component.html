@@ -1,1 +1,25 @@
-<p>selector-page works!</p>
+<h1 class="mt-5">Nested selectors</h1>
+<hr>
+
+<form action="" [formGroup]="selectorsForm" (ngSubmit)="save()">
+    <div class="col">
+        <label for="" class="form-label">Region</label>
+        <select name="" id="" class="form-control" formControlName="region">
+            <option value="" > -- Select continent -- </option>
+            <option [value]="region | lowercase" *ngFor="let region of regions; let i = index"> {{region}} </option>
+        </select>
+    </div>
+    <div class="row mt-3 float-end ">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">
+                Select
+            </button>
+        </div>
+    </div>
+</form>
+
+
+<h3 class="mt-5">Form</h3>
+
+<pre> {{selectorsForm.valid}}</pre>
+<pre>{{selectorsForm.value | json}}</pre>
