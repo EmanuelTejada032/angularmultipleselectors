@@ -5,8 +5,22 @@
     <div class="col">
         <label for="" class="form-label">Region</label>
         <select name="" id="" class="form-control" formControlName="region">
-            <option value="" > -- Select continent -- </option>
+            <option value="" > -- Select region -- </option>
             <option [value]="region | lowercase" *ngFor="let region of regions; let i = index"> {{region}} </option>
+        </select>
+    </div>
+    <div class="col">
+        <label for="" class="form-label">Country</label>
+        <select name="" id="" class="form-control" formControlName="country">
+            <option value="" > -- Select country -- </option>
+            <option [value]="country.cca3 | lowercase" *ngFor="let country of countries; let i = index"> {{country.name.common}} </option>
+        </select>
+    </div>
+    <div class="col">
+        <label for="" class="form-label">Country</label>
+        <select name="" id="" class="form-control" formControlName="border">
+            <option value="" > -- Select borders -- </option>
+            <option [value]="borderCountry | lowercase" *ngFor="let borderCountry of borderCountries; let i = index"> {{borderCountry}} </option>
         </select>
     </div>
     <div class="row mt-3 float-end ">
