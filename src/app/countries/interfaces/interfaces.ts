@@ -12,6 +12,11 @@ interface Name {
     official: string;
 }
 
+export interface smallCountries {
+    name: string;
+    code: string;
+}
+
 export interface BorderCountries {
     borders: string[];
 }

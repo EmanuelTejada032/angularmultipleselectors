@@ -27,4 +27,11 @@ export class CountriesServiceService {
     }
     return this.http.get<BorderCountries>(`${this.baseUrl}/alpha/${countryCode}?fields=borders`)
   }
+
+  getBorderCountriesInfo(countriesCodes: string): Observable<Country[] | null>{
+    if(!countriesCodes){
+      return of(null);
+    }
+    return this.http.get<Country[]>(`${this.baseUrl}/alpha?codes=${countriesCodes}`)
+  }
 }

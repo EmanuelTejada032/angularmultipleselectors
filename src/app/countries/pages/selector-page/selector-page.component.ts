@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import {switchMap, tap} from 'rxjs/operators'
 
-import { Country, BorderCountries } from '../../interfaces/interfaces';
+import { Country, smallCountries } from '../../interfaces/interfaces';
 import { CountriesServiceService } from '../../services/countries-service.service';
 
 @Component({
@@ -22,7 +22,9 @@ export class SelectorPageComponent implements OnInit {
 
   regions: string[] = [];
   countries: Country[] = [];
+  borderCountriesInfo: smallCountries[] = [];
   borderCountries: string[] = [];
+  loading : boolean = false;
 
   constructor(private formBuilder: FormBuilder, private countriesService: CountriesServiceService) { }
 
@@ -51,11 +53,15 @@ export class SelectorPageComponent implements OnInit {
     this.selectorsForm.get('region')?.valueChanges
     .pipe(
       tap( (_) => {
+        this.loading = true;
         this.selectorsForm.get('country')?.reset('');
       }),
       switchMap( region => this.countriesService.getRegionCountries(region))
     ).subscribe( countries => {
-      this.countries = countries;
+      setTimeout(() => {
+        this.countries = countries;
+        this.loading = false;
+      }, 500);
     })
   }
 
@@ -64,13 +70,31 @@ changesOnCountry(){
   this.selectorsForm.get('country')?.valueChanges
   .pipe(
     tap( (_) => {
+      this.loading = true;
       this.selectorsForm.get('border')?.reset('');
+      this.borderCountriesInfo = [];
     }),
     switchMap( country => { 
       return this.countriesService.getBorders(country)
     })
   ).subscribe( (borderCountries) => {
-    this.borderCountries = borderCountries?.borders || [];
+    setTimeout(() => {
+      this.borderCountries = borderCountries?.borders || [];
+      this.getBorderCountriesInfo()
+      this.loading = false;
+    }, 500);
+  })
+}
+      
+getBorderCountriesInfo(){
+  const countriesCodes = this.borderCountries.join(',');
+  this.countriesService.getBorderCountriesInfo(countriesCodes)
+  .subscribe(countriesNames => {
+    if(countriesNames?.length){
+      countriesNames.forEach( country => {
+        this.borderCountriesInfo.push({name: country.name.common, code: country.cca3})
+      })
+    }
   })
 }
   
